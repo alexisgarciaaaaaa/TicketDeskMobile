@@ -1,7 +1,6 @@
 import {useEffect, useState, useCallback} from 'react';
 import {fetchTickets, Ticket, TicketsQuery} from '../api/ticketsApi';
 import {HttpErrorShape} from '../../../shared/api/httpClient';
-import {useAuth} from '../../auth/context/AuthProvider';
 
 type UseTicketsState = {
   data: Ticket[];
@@ -11,7 +10,6 @@ type UseTicketsState = {
 };
 
 export function useTickets(initialQuery?: TicketsQuery) {
-  const {user} = useAuth();
   const [query, setQuery] = useState<TicketsQuery | undefined>(initialQuery);
   const [state, setState] = useState<UseTicketsState>({
     data: [],
@@ -32,7 +30,6 @@ export function useTickets(initialQuery?: TicketsQuery) {
       }));
 
       try {
-        // ejemplo de cómo podrías personalizar la query según el usuario logueado
         const effectiveQuery: TicketsQuery = {
           ...query,
         };
@@ -64,7 +61,7 @@ export function useTickets(initialQuery?: TicketsQuery) {
         }));
       }
     },
-    [query, user?.email],
+    [query],
   );
 
   useEffect(() => {
