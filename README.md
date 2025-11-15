@@ -1,79 +1,196 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📱 TicketDesk Mobile
 
-# Getting Started
+Aplicación móvil desarrollada con **React Native + TypeScript**, enfocada en la gestión de tickets técnicos. Cuenta con arquitectura modular, almacenamiento local seguro, API mockeada y una interfaz moderna y responsiva.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+---
 
-## Step 1: Start the Metro Server
+## 🚀 Descripción
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+**TicketDesk Mobile** es una aplicación móvil diseñada para visualizar, gestionar y filtrar tickets técnicos en un entorno simulado. Su objetivo es demostrar un flujo completo de una app de soporte técnico con estándares de producción, incluyendo autenticación persistente, dashboards analíticos, navegación avanzada y arquitectura desacoplada basada en features.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+---
 
-```bash
-# using npm
-npm start
+## 🧩 Características principales
 
-# OR using Yarn
-yarn start
+### 🔐 Autenticación
+- Inicio de sesión local con persistencia usando `AsyncStorage`.
+- Cierre de sesión con confirmación vía modal.
+- Tipado seguro con `Context API + TypeScript`.
+
+### 🎫 Gestión de Tickets
+- Visualización moderna de lista de tickets.
+- Tabs para: **Pendientes**, **En proceso**, **Completados**.
+- Detalle profesional del ticket.
+- Conexión a API (mock) usando cliente HTTP tipado.
+- Manejo de estado global con **Redux Toolkit** y `async thunks`.
+
+### 📊 Dashboard Analítico
+- Gráfica de barras con historial de tickets.
+- Selector de rango de fechas (7, 30, 90 días).
+- Widgets con scroll horizontal integrado.
+- UI coherente con el resto de pantallas.
+
+### ⚙️ Ajustes
+- Edición del perfil del usuario.
+- Persistencia de datos del perfil.
+- Opción para cerrar sesión con confirmación.
+- Modal para edición con diseño atractivo.
+
+---
+
+## 🏛️ Arquitectura del Proyecto
+
+La aplicación sigue una arquitectura modular y escalable basada en separación por features:
+
+```
+src/
+ ├── app/
+ │   ├── navigation/
+ │   ├── store/
+ │   └── theme/
+ ├── features/
+ │   ├── auth/
+ │   ├── tickets/
+ │   ├── dashboard/
+ │   └── settings/
+ ├── components/
+ └── utils/
 ```
 
-## Step 2: Start your Application
+### 🛠️ Tecnologías Clave
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+- React Native
+- TypeScript
+- Redux Toolkit
+- Context API
+- AsyncStorage
+- React Navigation
+- Victory Native / React Native SVG Charts
+- `react-native-config` (variables de entorno)
+- `json-server` (API local simulada)
 
-### For Android
+---
+
+## 📦 Instalación
+
+1. Clona el repositorio:
+
+   ```bash
+   git clone https://github.com/tuusuario/ticketdesk-mobile.git
+   cd ticketdesk-mobile
+   ```
+
+2. Instala dependencias:
+
+   ```bash
+   npm install
+   ```
+
+3. Configura variables de entorno:
+
+   Crea un archivo `.env` en la raíz:
+
+   ```
+   API_BASE_URL=http://localhost:3001
+   ```
+
+4. Instala `react-native-config`:
+
+   ```bash
+   npm install react-native-config
+   ```
+
+5. En iOS:
+
+   ```bash
+   cd ios && pod install
+   ```
+
+---
+
+## 🧪 API Mock (json-server)
+
+Para simular un backend:
+
+1. Instala json-server:
+
+   ```bash
+   npm install -g json-server
+   ```
+
+2. Crea el archivo `server/db.json`:
+
+   ```json
+   {
+     "tickets": [
+       {
+         "id": 1,
+         "title": "Error en la VPN",
+         "status": "pending",
+         "createdAt": "2025-01-12T10:15:00Z"
+       }
+     ]
+   }
+   ```
+
+3. Inicia la API mock:
+
+   ```bash
+   json-server --watch server/db.json --port 3001
+   ```
+
+---
+
+## ▶️ Ejecutar la App
+
+### iOS
 
 ```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
+npx pod-install
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### Android
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+```bash
+npm run android
+```
 
-## Step 3: Modifying your App
+---
 
-Now that you have successfully run the app, let's modify it.
+## ✅ Buenas Prácticas Implementadas
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+- Tipado estricto con **TypeScript**.
+- Arquitectura modular desacoplada por feature.
+- Redux Toolkit con **thunks asíncronos**.
+- Cliente HTTP reutilizable.
+- Manejo centralizado de errores.
+- Variables de entorno seguras.
+- Hooks personalizados: `useAppSelector`, `useAppDispatch`.
+- Componentes reutilizables de UI.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+---
 
-## Congratulations! :tada:
+## 📸 Capturas de Pantalla (opcional)
 
-You've successfully run and modified your React Native App. :partying_face:
+> Puedes agregar aquí imágenes del dashboard, lista de tickets y pantalla de configuración.
 
-### Now what?
+---
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+## 🤝 Contribución
 
-# Troubleshooting
+¡Pull Requests bienvenidos!
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+Usa la siguiente convención de commits:
 
-# Learn More
+- `feat:` nueva funcionalidad
+- `fix:` corrección de bug
+- `refactor:` mejora de código
+- `style:` cambios visuales
+- `docs:` cambios en documentación
 
-To learn more about React Native, take a look at the following resources:
+---
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la [MIT License](LICENSE).
