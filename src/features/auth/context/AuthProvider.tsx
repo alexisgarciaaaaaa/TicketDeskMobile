@@ -64,7 +64,10 @@ export const AuthProvider: React.FC<Props> = ({children}) => {
   };
 
   const updateProfile = async (partial: Partial<AuthUser>) => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
+
     const updated: AuthUser = {...user, ...partial};
     setUser(updated);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
@@ -83,8 +86,10 @@ export const AuthProvider: React.FC<Props> = ({children}) => {
 
 export const useAuth = (): AuthContextValue => {
   const ctx = useContext(AuthContext);
+
   if (!ctx) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
+
   return ctx;
 };
