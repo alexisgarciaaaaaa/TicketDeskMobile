@@ -19,9 +19,12 @@ jest.mock('react-redux', () => {
     Provider: ({children}: {children: React.ReactNode}) =>
       React.createElement('ReduxProvider', null, children),
     useDispatch: jest.fn(() => jest.fn()),
-    useSelector: jest.fn(selector => selector({})),
+    useSelector: jest.fn(
+      (selector: (state: any) => any) => selector({}),
+    ),
   };
 });
+
 
 // 👇 Mock del store para no levantar Redux Toolkit / immer / etc
 jest.mock('../src/app/store', () => {
