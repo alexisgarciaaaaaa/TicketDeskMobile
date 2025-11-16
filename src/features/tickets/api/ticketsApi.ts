@@ -1,21 +1,17 @@
 // src/features/tickets/api/ticketsApi.ts
-import { httpRequest } from "../../../shared/api/httpClient";
+import {httpRequest} from '../../../shared/api/httpClient';
+import {Ticket, TicketPriority, TicketStatus} from '../../../shared/types/ticket';
 
-export type TicketStatus = 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
-export type TicketPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+export type TicketsQuery = {
+  status?: TicketStatus;
+  priority?: TicketPriority;
+};
 
-export interface Ticket {
-  id: string;
-  title: string;
-  description: string;
-  requester: string;
-  status: TicketStatus;
-  priority: TicketPriority;
-}
-
-export async function getTickets(): Promise<Ticket[]> {
+// Por ahora ignoramos el query (lo dejamos sólo tipado)
+// para no complicar el mock server.
+export async function fetchTickets(_query?: TicketsQuery): Promise<Ticket[]> {
   return httpRequest<Ticket[]>({
     method: 'GET',
-    path: '/tickets', // 👈 importante
+    path: '/tickets',
   });
 }

@@ -1,19 +1,24 @@
-import { httpRequest } from "../api/httpClient";
-export type TicketStatus = 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
-export type TicketPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+// src/shared/types/ticket.ts
 
-export interface Ticket {
-  id: string;
+// Estado interno de negocio
+export type TicketStatus = 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
+
+// Prioridad en texto (en español, como en el UI)
+export type TicketPriority = 'Baja' | 'Media' | 'Alta' | 'Crítica';
+
+export type Ticket = {
+  id: number;
   title: string;
   description: string;
   requester: string;
-  status: TicketStatus;
-  priority: TicketPriority;
-}
 
-export async function getTickets(): Promise<Ticket[]> {
-  return httpRequest<Ticket[]>({
-    method: 'GET',
-    path: '/tickets',
-  });
-}
+  // Prioridad y estado
+  priority: TicketPriority;
+  status: TicketStatus;
+
+  // Campo usado para mostrar “Resuelto / En progreso / Abierto” en UI
+  statusLabel: string;
+
+  // Fecha legible que estás usando en las pantallas (12.01.2024, etc.)
+  createdAt: string;
+};

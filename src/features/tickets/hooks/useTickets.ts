@@ -1,5 +1,6 @@
+import {fetchTickets, TicketsQuery} from '../api/ticketsApi';
+import {Ticket} from '../../../shared/types/ticket';
 import {useEffect, useState, useCallback} from 'react';
-import {fetchTickets, Ticket, TicketsQuery} from '../api/ticketsApi';
 import {HttpErrorShape} from '../../../shared/api/httpClient';
 
 type UseTicketsState = {
