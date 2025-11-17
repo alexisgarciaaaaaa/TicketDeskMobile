@@ -11,7 +11,7 @@ import {
   Keyboard,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { useAuth } from '../context/AuthProvider';
+import {useAuth} from '../context/AuthProvider';
 
 export const LoginScreen: React.FC = () => {
   const {signIn} = useAuth();
@@ -54,9 +54,7 @@ export const LoginScreen: React.FC = () => {
                 placeholderTextColor="#9CA3AF"
               />
 
-              <Text style={[styles.label, {marginTop: 12}]}>
-                Correo corporativo
-              </Text>
+              <Text style={styles.labelTop}>Correo corporativo</Text>
               <TextInput
                 style={styles.input}
                 value={email}
@@ -124,6 +122,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#6B7280',
     marginBottom: 4,
+  },
+  labelTop: {
+    fontSize: 13,
+    color: '#6B7280',
+    marginBottom: 4,
+    marginTop: 12,
   },
   input: {
     borderRadius: 12,

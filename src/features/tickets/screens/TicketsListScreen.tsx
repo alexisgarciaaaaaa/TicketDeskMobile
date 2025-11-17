@@ -11,7 +11,8 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TicketsStackParamList} from '../../../app/navigation/TicketsStackNavigator';
-import {Ticket, getTickets} from '../api/ticketsApi';
+import {Ticket} from '../../../shared/types/ticket';
+import {fetchTickets} from '../api/ticketsApi';
 
 type Props = NativeStackScreenProps<TicketsStackParamList, 'TicketsList'>;
 
@@ -29,23 +30,32 @@ export const TicketsListScreen: React.FC<Props> = ({navigation}) => {
   });
 
   const loadTickets = async () => {
-  try {
-    setState(prev => ({...prev, loading: true, error: null}));
-    const data = await getTickets();
-    console.log('[Tickets] recibidos', data);
-    setState({items: data, loading: false, error: null});
-  } catch (error: any) {
-    console.log('[Tickets] error', error);
-    setState(prev => ({
-      ...prev,
-      loading: false,
-      error:
-        error?.message ??
-        'Ocurrió un problema al obtener los tickets. Intenta de nuevo.',
-    }));
-  }
-};
+    try {
+      setState(prev => ({...prev, loading: true, error: null}));
 
+      const data = await fetchTickets();
+      console.log('[Tickets] recibidos', data);
+
+      setState({
+        items: data,
+        loading: false,
+        error: null,
+      });
+    } catch (err) {
+      console.log('[Tickets] error', err);
+
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Ocurrió un problema al obtener los tickets. Intenta de nuevo.';
+
+      setState(prev => ({
+        ...prev,
+        loading: false,
+        error: message,
+      }));
+    }
+  };
 
   useEffect(() => {
     loadTickets();
@@ -95,7 +105,7 @@ export const TicketsListScreen: React.FC<Props> = ({navigation}) => {
 
   const {items, loading, error} = state;
 
-  // Estados de carga / error
+  // Estado de carga inicial
   if (loading && items.length === 0) {
     return (
       <SafeAreaView
@@ -108,13 +118,16 @@ export const TicketsListScreen: React.FC<Props> = ({navigation}) => {
     );
   }
 
+  // Estado de error inicial
   if (error && items.length === 0) {
     return (
       <SafeAreaView
         style={styles.safeArea}
         edges={['top', 'left', 'right', 'bottom']}>
         <View style={styles.centered}>
-          <Text style={styles.errorTitle}>No se pudieron cargar los tickets</Text>
+          <Text style={styles.errorTitle}>
+            No se pudieron cargar los tickets
+          </Text>
           <Text style={styles.errorSubtitle}>{error}</Text>
           <TouchableOpacity style={styles.retryButton} onPress={loadTickets}>
             <Text style={styles.retryText}>Reintentar</Text>
@@ -140,7 +153,7 @@ export const TicketsListScreen: React.FC<Props> = ({navigation}) => {
         {/* Lista */}
         <FlatList
           data={items}
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
           renderItem={renderItem}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
@@ -167,18 +180,7 @@ const mapStatusToLabel = (status: Ticket['status']) => {
 };
 
 const mapPriorityToLabel = (priority: Ticket['priority']) => {
-  switch (priority) {
-    case 'LOW':
-      return 'Baja';
-    case 'MEDIUM':
-      return 'Media';
-    case 'HIGH':
-      return 'Alta';
-    case 'URGENT':
-      return 'Crítica';
-    default:
-      return priority;
-  }
+  return priority;
 };
 
 const getStatusPillStyle = (status: Ticket['status']) => {
@@ -198,13 +200,13 @@ const getStatusPillStyle = (status: Ticket['status']) => {
 
 const getPriorityDotStyle = (priority: Ticket['priority']) => {
   switch (priority) {
-    case 'LOW':
+    case 'Baja':
       return {backgroundColor: '#22C55E'};
-    case 'MEDIUM':
+    case 'Media':
       return {backgroundColor: '#FACC15'};
-    case 'HIGH':
+    case 'Alta':
       return {backgroundColor: '#FB923C'};
-    case 'URGENT':
+    case 'Crítica':
       return {backgroundColor: '#EF4444'};
     default:
       return {backgroundColor: '#9CA3AF'};

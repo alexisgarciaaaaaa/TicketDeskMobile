@@ -12,10 +12,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {MOCK_TICKETS} from '../tickets/mockTickets';
 import {Ticket, TicketStatus} from '../../shared/types/ticket';
-import {
-  TicketsBarChart,
-  TicketsChartPoint,
-} from './TicketsBarChart';
+import {TicketsBarChart, TicketsChartPoint} from './TicketsBarChart';
 
 type DateRange = '7d' | '30d' | '90d';
 
@@ -23,6 +20,7 @@ export const DashboardScreen: React.FC = () => {
   const [dateRange, setDateRange] = useState<DateRange>('7d');
 
   // ---- MÉTRICAS PRINCIPALES ----
+  // No dependen realmente de dateRange, así que dejamos [] para evitar el warning
   const stats = useMemo(() => {
     const total = MOCK_TICKETS.length;
 
@@ -48,12 +46,13 @@ export const DashboardScreen: React.FC = () => {
       closed: byStatus.CLOSED,
       resolvedPercentage,
     };
-  }, [dateRange]);
+  }, []);
 
   // ---- ACTIVIDAD RECIENTE ----
+  // También es independiente del rango, solo mostramos los 3 últimos mock
   const recentTickets = useMemo<Ticket[]>(() => {
     return MOCK_TICKETS.slice(0, 3);
-  }, [dateRange]);
+  }, []);
 
   // ---- DATOS PARA LA GRÁFICA ----
   const chartData: TicketsChartPoint[] = useMemo(() => {
@@ -131,7 +130,9 @@ export const DashboardScreen: React.FC = () => {
           cancelButtonIndex,
         },
         buttonIndex => {
-          if (buttonIndex != null) selectRange(buttonIndex);
+          if (buttonIndex != null) {
+            selectRange(buttonIndex);
+          }
         },
       );
     } else {
@@ -149,8 +150,7 @@ export const DashboardScreen: React.FC = () => {
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+        showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           {/* HEADER */}
           <View style={styles.headerRow}>
@@ -216,7 +216,7 @@ export const DashboardScreen: React.FC = () => {
           </View>
 
           {recentTickets.map(t => (
-            <View key={t.id} style={{marginBottom: 8}}>
+            <View key={t.id} style={styles.recentItemWrapper}>
               <RecentTicketItem ticket={t} />
             </View>
           ))}
@@ -407,6 +407,9 @@ const styles = StyleSheet.create({
   },
 
   /* ITEMS LISTA */
+  recentItemWrapper: {
+    marginBottom: 8,
+  },
   recentItemCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -447,3 +450,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+export default DashboardScreen;

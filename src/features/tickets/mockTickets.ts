@@ -1,49 +1,38 @@
+// src/features/tickets/mockTickets.ts
 import {Ticket} from '../../shared/types/ticket';
 
 export const MOCK_TICKETS: Ticket[] = [
   {
-    id: '1042',
-    title: 'No puedo iniciar sesión en la app',
-    requester: 'Davy Jones',
+    id: 10234,
+    title: 'Error 500 al crear usuario desde portal interno',
+    description:
+      'Al intentar crear un usuario desde /admin/users, la API responde 500 de forma intermitente.',
+    requester: 'Ana Morales',
     priority: 'Alta',
     status: 'OPEN',
     statusLabel: 'Abierto',
     createdAt: '12.01.2024',
   },
   {
-    id: '1043',
-    title: 'Error al procesar pago con Mastercard',
-    requester: 'Guy Hawkins',
-    priority: 'Crítica',
-    status: 'RESOLVED',
-    statusLabel: 'Resuelto',
-    createdAt: '12.01.2024',
-  },
-  {
-    id: '1044',
-    title: 'Correos de restablecer contraseña no llegan',
-    requester: 'Brooklyn Simmons',
+    id: 10235,
+    title: 'Notificaciones push duplicadas en iOS',
+    description:
+      'Algunos usuarios reportan recibir la misma notificación push dos veces en la app de producción.',
+    requester: 'Carlos Rivas',
     priority: 'Media',
     status: 'IN_PROGRESS',
     statusLabel: 'En progreso',
     createdAt: '12.01.2024',
   },
   {
-    id: '1045',
-    title: 'No puedo adjuntar archivos en Chrome',
-    requester: 'Courtney Henry',
-    priority: 'Alta',
-    status: 'OPEN',
-    statusLabel: 'Abierto',
-    createdAt: '12.01.2024',
-  },
-  {
-    id: '1046',
-    title: 'La app se cierra al abrir detalle de ticket',
-    requester: 'Bessie Cooper',
-    priority: 'Crítica',
-    status: 'OPEN',
-    statusLabel: 'Abierto',
+    id: 10236,
+    title: 'Reporte de tickets no se descarga en formato CSV',
+    description:
+      "El botón 'Exportar CSV' descarga un archivo vacío para rangos mayores a 30 días.",
+    requester: 'Laura Pérez',
+    priority: 'Baja',
+    status: 'RESOLVED',
+    statusLabel: 'Resuelto',
     createdAt: '12.01.2024',
   },
 ];
