@@ -22,7 +22,6 @@ Aplicación móvil desarrollada con **React Native + TypeScript**, enfocada en l
 - Tabs para: **Pendientes**, **En proceso**, **Completados**.
 - Detalle profesional del ticket.
 - Conexión a API (mock) usando cliente HTTP tipado.
-- Manejo de estado global con **Redux Toolkit** y `async thunks`.
 
 ### 📊 Dashboard Analítico
 - Gráfica de barras con historial de tickets.
